@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MapPin } from 'lucide-react'
+import { Heart, MapPin } from 'lucide-react'
 
 export interface ProductCardProps {
   product: {
@@ -21,22 +21,24 @@ const priceFormatter = new Intl.NumberFormat('uk-UA', {
 
 const dateFormatter = new Intl.DateTimeFormat('uk-UA', {
   day: 'numeric',
-  month: 'long',
+  month: 'short',
   year: 'numeric',
 })
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null)
+  const [favoriteProductId, setFavoriteProductId] = useState<string | number | null>(null)
+  const [today] = useState(() => new Date().toDateString())
+  const isFavorite = favoriteProductId === product.id
   const imageUrl = product.imageUrl?.trim()
   const publishedAt = new Date(product.createdAt)
   const hasValidDate = !Number.isNaN(publishedAt.getTime())
 
   return (
-    <a
-      href={`/product/${encodeURIComponent(String(product.id))}`}
-      className="flex h-full min-w-0 cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 motion-reduce:transform-none motion-reduce:transition-none"
+    <article
+      className="@container relative flex aspect-[262/350] w-full min-w-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-lg motion-reduce:transition-none"
     >
-      <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-t-lg bg-gray-100">
+      <div className="relative aspect-[262/196] w-full shrink-0 overflow-hidden bg-gray-100">
         {imageUrl && imageUrl !== failedImageUrl ? (
           <img
             src={imageUrl}
@@ -44,10 +46,10 @@ export default function ProductCard({ product }: ProductCardProps) {
             loading="lazy"
             decoding="async"
             onError={() => setFailedImageUrl(imageUrl)}
-            className="h-48 w-full rounded-t-lg object-cover"
+            className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-2 text-gray-500">
+          <div className="flex h-full flex-col items-center justify-center gap-[3cqw] text-gray-500">
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
@@ -56,49 +58,67 @@ export default function ProductCard({ product }: ProductCardProps) {
               strokeWidth={1.5}
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="size-10"
+              className="size-[15cqw]"
             >
               <rect x="3" y="3" width="18" height="18" rx="2" />
               <circle cx="8.5" cy="8.5" r="1.5" />
               <path d="m21 15-5-5L5 21" />
             </svg>
-            <span className="text-sm">Фото відсутнє</span>
+            <span className="text-[4.58cqw]">Фото відсутнє</span>
           </div>
         )}
 
-        <div className="absolute inset-x-3 top-3 flex">
-          <span className="max-w-full truncate rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm">
-            {product.category}
-          </span>
-        </div>
+        <button
+          type="button"
+          aria-label={isFavorite ? 'Видалити з обраного' : 'Додати до обраного'}
+          aria-pressed={isFavorite}
+          onClick={() => setFavoriteProductId(isFavorite ? null : product.id)}
+          className="absolute top-[4.58cqw] right-[4.58cqw] z-10 flex size-[12.21cqw] cursor-pointer items-center justify-center rounded-full bg-white text-gray-700 shadow-sm transition-colors hover:text-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        >
+          <Heart
+            aria-hidden="true"
+            className={`size-[7.63cqw] ${isFavorite ? 'fill-red-500 text-red-500' : ''}`}
+          />
+        </button>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <p className="text-lg font-bold text-blue-600">
+      <div className="flex min-h-0 flex-1 flex-col p-[5.34cqw]">
+        <p className="truncate text-[4.58cqw] leading-tight text-gray-500">
+          {product.category}
+        </p>
+
+        <h3 className="mt-[3.05cqw] truncate text-[5.34cqw] leading-tight font-semibold text-black">
+          <a
+            href={`/product/${encodeURIComponent(String(product.id))}`}
+            className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-xl focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-blue-600"
+          >
+            {product.title}
+          </a>
+        </h3>
+
+        <p className="mt-[4.58cqw] truncate text-[7.63cqw] leading-tight font-bold text-black">
           {product.price === 0
             ? 'Безкоштовно'
             : priceFormatter.format(product.price)}
         </p>
 
-        <h3 className="line-clamp-1 font-medium text-gray-900">
-          {product.title}
-        </h3>
-
-        <div className="mt-auto flex flex-col gap-2 text-sm text-gray-500">
-          <p className="flex min-w-0 items-center gap-1.5">
-            <MapPin aria-hidden="true" className="size-4 shrink-0" />
+        <div className="mt-auto flex items-center justify-between gap-[3.05cqw] pt-[3.05cqw] text-[4.2cqw] leading-tight text-gray-500">
+          <p className="flex min-w-0 items-center gap-[1.53cqw]">
+            <MapPin aria-hidden="true" className="size-[5.34cqw] shrink-0" />
             <span className="truncate">{product.location}</span>
           </p>
 
           {hasValidDate ? (
-            <time dateTime={publishedAt.toISOString()} className="text-xs">
-              Опубліковано {dateFormatter.format(publishedAt)}
+            <time dateTime={publishedAt.toISOString()} className="shrink-0 whitespace-nowrap">
+              {publishedAt.toDateString() === today
+                ? 'Сьогодні'
+                : dateFormatter.format(publishedAt)}
             </time>
           ) : (
-            <span className="text-xs">Дата публікації невідома</span>
+            <span className="shrink-0">Дата невідома</span>
           )}
         </div>
       </div>
-    </a>
+    </article>
   )
 }
