@@ -1,0 +1,36 @@
+/* FMN-18 — self-contained header styles inspired by the FleaMarket NULP design. */
+.fmn-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);border-bottom:1px solid #e9ebf0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.fmn-header-inner{width:100%;max-width:1440px;min-height:76px;padding:0 28px;margin:0 auto;display:flex;gap:24px;align-items:center}
+.fmn-header a{text-decoration:none}
+.fmn-header a:focus-visible,.fmn-header button:focus-visible,.fmn-header input:focus-visible{outline:3px solid #8aa2e6;outline-offset:3px}
+.fmn-brand{display:inline-flex;gap:9px;align-items:center;flex-shrink:0;color:#1c2639;white-space:nowrap;font-size:19px;font-weight:750;letter-spacing:-.65px}
+.fmn-brand strong{color:#244393}
+.fmn-brand-icon{display:grid;place-items:center;width:39px;height:39px;border-radius:10px;background:#244393;color:#fff}
+.fmn-brand-icon svg{width:24px;height:24px}
+.fmn-desktop-nav{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.fmn-desktop-nav a,.fmn-mobile-menu>a:not(.fmn-create){color:#44516a;font-size:14px;font-weight:550;border-radius:7px;padding:9px 2px}
+.fmn-desktop-nav a:hover,.fmn-mobile-menu>a:not(.fmn-create):hover{color:#244393}
+.fmn-search{display:flex;align-items:center;gap:10px;min-width:130px;max-width:570px;flex:1;background:#f7f8fa;border:1px solid transparent;border-radius:10px;padding:0 14px;height:44px;color:#758092}
+.fmn-search:focus-within{border-color:#a4b7eb;background:#fff}
+.fmn-search svg{width:18px;height:18px;flex-shrink:0}
+.fmn-search input{width:100%;min-width:0;background:transparent;color:#1c2639;border:0;outline:0;box-shadow:none;font:inherit;font-size:14px}
+.fmn-search input:focus-visible{outline:none}
+.fmn-search input::placeholder{color:#8791a3}
+.fmn-desktop-actions{margin-left:auto;display:flex;gap:10px;align-items:center;flex-shrink:0}
+.fmn-create{min-height:44px;padding:0 18px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;background:#244393;color:#fff;font-size:14px;font-weight:650}
+.fmn-create:hover{background:#1c357c}
+.fmn-create>span{font-size:22px;font-weight:450;line-height:1}
+.fmn-account{min-height:44px;padding:0 14px;border-radius:9px;border:1px solid #dfe4ee;display:inline-flex;align-items:center;gap:8px;color:#263144;background:#fff;white-space:nowrap;font-size:14px;font-weight:600}
+.fmn-account:hover{background:#f7f9ff}
+.fmn-account svg{width:18px;height:18px}
+.fmn-avatar{width:27px;height:27px;object-fit:cover;border-radius:50%}
+.fmn-avatar-letter{display:grid;place-items:center;background:#e6edff;color:#244393}
+.fmn-menu-toggle{display:none;width:44px;height:44px;flex-shrink:0;border:1px solid #dfe4ee;border-radius:9px;background:#fff;color:#263144;font-size:23px;align-items:center;justify-content:center;cursor:pointer}
+.fmn-mobile-menu{display:none}
+.fmn-search-mobile{display:none}
+@media (max-width:1199px){.fmn-desktop-nav{display:none}.fmn-header-inner{gap:16px}.fmn-menu-toggle{display:inline-flex}}
+@media (max-width:899px){.fmn-header-inner{padding:0 20px;min-height:70px}.fmn-header-inner>.fmn-search{display:none}.fmn-mobile-menu{display:flex;flex-direction:column;gap:4px;border-top:1px solid #ebedf2;padding:16px 20px 24px;background:#fff}.fmn-search-mobile{display:flex;width:100%;max-width:none;flex:none;margin-bottom:8px}.fmn-mobile-menu>a:not(.fmn-create){padding:12px 5px}.fmn-mobile-create{align-self:stretch;margin-top:9px}.fmn-mobile-account{margin-top:8px}.fmn-mobile-account .fmn-account{width:100%;justify-content:center}}
+@media (min-width:900px) and (max-width:1199px){.fmn-mobile-menu{display:flex;flex-direction:column;gap:4px;border-top:1px solid #ebedf2;padding:16px max(20px,calc((100vw - 1120px)/2)) 24px;background:#fff}.fmn-mobile-menu>.fmn-search{display:none}.fmn-mobile-menu>a:not(.fmn-create){padding:12px 5px}.fmn-mobile-create{align-self:flex-start;margin-top:8px}.fmn-mobile-account{display:none}}
+@media (max-width:650px){.fmn-header-inner{min-height:65px;padding:0 16px;gap:8px}.fmn-brand{font-size:17px;gap:7px}.fmn-brand-icon{height:36px;width:36px}.fmn-brand-icon svg{height:23px;width:23px}.fmn-desktop-actions{display:none}.fmn-menu-toggle{margin-left:auto}.fmn-mobile-menu{padding:14px 16px 20px}}
+@media (max-width:370px){.fmn-brand{font-size:15px}}
+@media (prefers-reduced-motion:no-preference){.fmn-header a,.fmn-header button{transition:background-color .15s,color .15s}}
