@@ -109,6 +109,6 @@ flea-market-nulp/
 
 ## 🔗 Корисні посилання
 
-- 📋 [Дошка завдань (Trello)](https://trello.com/b/ewZ45XOX/pigs-in-a-blanket)
-- 🎨 [Макет у Figma](https://www.figma.com/make/PG3odnTEvngN3XkrlqNYdj/FleaMarket-NULP-Marketplace?p=f&t=sQgLR1wSaglfAltX-0)
+- 📋 [Дошка завдань (Jira)](https://pigsinablanket.atlassian.net/jira/software/projects/FMN/boards/2?filter=&groupBy=none&atlOrigin=eyJpIjoiZmFjYzMyNTIxMWEyNDllYzhlMjE2MjU4MTFlYjk5MTgiLCJwIjoiaiJ9)
+- 🎨 [Макет у Figma](https://www.figma.com/make/PG3odnTEvngN3XkrlqNYdj/FleaMarket-NULP-Marketplace?t=0355o3thUrz7jhuJ-1)
 - 🌐 [Задеплоєний сайт](#) ← _буде після деплою_
