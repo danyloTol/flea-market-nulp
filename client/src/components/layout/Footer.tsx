@@ -1,65 +1,56 @@
-/**
- * FMN-19 — global footer for FleaMarket NULP.
- * The parent application shell uses flex-col / min-h-screen;
- * mt-auto keeps the footer at the bottom on short pages.
- */
-const usefulLinks = [
-  { label: 'Головна', href: '/' },
-  { label: 'Каталог оголошень', href: '/catalog' },
-  { label: 'Подати оголошення', href: '/create' },
-  { label: 'Увійти', href: '/login' },
+import { GraduationCap, MapPin } from 'lucide-react'
+import { Link } from 'react-router-dom'
+
+type FooterLink = {
+  label: string
+  to: string
+}
+
+type CampusLink = {
+  label: string
+  location: string
+}
+
+const usefulLinks: readonly FooterLink[] = [
+  { label: 'Головна', to: '/' },
+  { label: 'Каталог оголошень', to: '/catalog' },
+  { label: 'Подати оголошення', to: '/create' },
+  { label: 'Увійти', to: '/login' },
 ]
 
-const campusLinks = [
+const campusLinks: readonly CampusLink[] = [
   { label: 'Головний корпус (ГУК)', location: 'ГУК' },
   { label: 'Навчальний корпус №1', location: 'Корпус 1' },
   { label: 'Навчальний корпус №2', location: 'Корпус 2' },
   { label: 'Студмістечко', location: 'Студмістечко' },
 ]
 
-const linkStyle =
-  'inline-block rounded-sm text-sm text-slate-600 underline-offset-4 transition-colors hover:text-[#244393] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#244393]'
-
-function CapIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-6 w-6"
-    >
-      <path d="m2 9 10-5 10 5-10 5L2 9Z" />
-      <path d="M6 11v5c4 3 8 3 12 0v-5" />
-      <path d="M22 9v7" />
-    </svg>
-  )
-}
+const linkClasses =
+  'inline-flex min-h-8 items-center rounded-md text-sm leading-6 text-slate-600 transition-colors hover:text-[#244393] hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#244393]'
 
 export default function Footer() {
+  const year = new Date().getFullYear()
+
   return (
     <footer
-      className="mt-auto w-full shrink-0 border-t border-slate-200 bg-white text-slate-800"
       aria-label="Підвал сайту"
+      className="mt-auto w-full shrink-0 border-t border-slate-200 bg-white text-slate-800"
     >
-      <div className="mx-auto w-full max-w-7xl px-4 pt-10 pb-7 sm:px-6 sm:pt-12 lg:px-8">
-        <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1.25fr] lg:gap-12">
-          <div className="max-w-sm space-y-4">
-            <a
-              href="/"
-              aria-label="FleaMarket NULP — головна сторінка"
-              className="inline-flex items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#244393]"
+      <div className="mx-auto w-full max-w-7xl px-4 pb-7 pt-10 sm:px-6 sm:pt-12 lg:px-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1.25fr] lg:gap-12">
+          <div className="max-w-sm space-y-4 sm:col-span-2 lg:col-span-1">
+            <Link
+              to="/"
+              aria-label="FleaMarket NULP — на головну"
+              className="inline-flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#244393]"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#244393] text-white">
-                <CapIcon />
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#244393] text-white">
+                <GraduationCap aria-hidden="true" className="size-6" strokeWidth={1.8} />
               </span>
               <span className="text-lg font-bold tracking-tight text-slate-900">
                 FleaMarket <span className="text-[#244393]">NULP</span>
               </span>
-            </a>
+            </Link>
             <p className="text-sm leading-6 text-slate-600">
               Маленькі знахідки. Велика студентська спільнота.
               Купуй, продавай та обмінюй речі серед студентів Політехніки.
@@ -67,33 +58,34 @@ export default function Footer() {
           </div>
 
           <nav aria-label="Корисні посилання">
-            <h2 className="mb-4 text-sm font-bold tracking-wide text-slate-900">
+            <h2 className="mb-3 text-sm font-semibold text-slate-900">
               Корисні посилання
             </h2>
-            <ul className="space-y-3">
-              {usefulLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <a className={linkStyle} href={href}>
+            <ul className="space-y-1.5">
+              {usefulLinks.map(({ label, to }) => (
+                <li key={to}>
+                  <Link to={to} className={linkClasses}>
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
           <nav aria-label="Популярні корпуси та локації">
-            <h2 className="mb-4 text-sm font-bold tracking-wide text-slate-900">
-              Популярні корпуси та локації
+            <h2 className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-slate-900">
+              <MapPin aria-hidden="true" className="size-4 text-[#244393]" />
+              Популярні корпуси
             </h2>
-            <ul className="space-y-3">
+            <ul className="space-y-1.5">
               {campusLinks.map(({ label, location }) => (
                 <li key={location}>
-                  <a
-                    className={linkStyle}
-                    href={`/catalog?location=${encodeURIComponent(location)}`}
+                  <Link
+                    to={`/catalog?location=${encodeURIComponent(location)}`}
+                    className={linkClasses}
                   >
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -107,7 +99,7 @@ export default function Footer() {
             та не представляє університет.
           </p>
           <p className="mt-3 text-xs text-slate-500">
-            © {new Date().getFullYear()} FleaMarket NULP. Створено студентами для студентів.
+            © {year} FleaMarket NULP. Створено студентами для студентів.
           </p>
         </div>
       </div>
