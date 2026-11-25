@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import productRoutes from './routes/productRoutes';
 
 dotenv.config();
 
@@ -11,7 +12,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Тестовий маршрут для перевірки
+// Routes
+app.use('/api/products', productRoutes);
+
+// Healthcheck
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', message: 'FleaMarket NULP Server is running!' });
 });
