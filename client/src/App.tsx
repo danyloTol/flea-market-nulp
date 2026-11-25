@@ -38,6 +38,7 @@ function App() {
       <AuthProvider>
         <div className="flex min-h-screen flex-col bg-gray-50 text-gray-900">
           <Navbar />
+          <h1>Hello world!</h1>
           <main className="w-full flex-1">
             <Routes>
               {/* Головна сторінка-заглушка */}
