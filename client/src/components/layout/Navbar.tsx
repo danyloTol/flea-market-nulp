@@ -1,15 +1,9 @@
 import { useEffect, useId, useState, type FormEvent } from 'react'
-import { GraduationCap, Menu, Plus, Search, UserRound, X } from 'lucide-react'
+import { GraduationCap, LogOut, Menu, Plus, Search, UserRound, X } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth, type AuthUser } from '../../context/AuthContext'
 
-export type NavbarUser = {
-  name: string
-  avatarUrl?: string
-}
-
-type NavbarProps = {
-  user?: NavbarUser | null
-}
+export type NavbarUser = AuthUser
 
 type SearchFormProps = {
   onNavigate?: () => void
@@ -68,7 +62,7 @@ function AccountLink({
   onNavigate,
   className = '',
 }: {
-  user: NavbarUser | null
+  user: AuthUser | null
   onNavigate?: () => void
   className?: string
 }) {
@@ -99,12 +93,29 @@ function AccountLink({
   )
 }
 
-/**
- * FMN-18 — sticky responsive header.
- * Pass the authenticated user from the app when auth is implemented.
- * Renders inside the application's existing BrowserRouter (does not create another one).
- */
-export default function Navbar({ user = null }: NavbarProps) {
+function LogoutButton({
+  onClick,
+  className = '',
+}: {
+  onClick: () => void
+  className?: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-700 ${focusRing} ${className}`}
+    >
+      <LogOut aria-hidden="true" className="size-4" />
+      Вийти
+    </button>
+  )
+}
+
+/** FMN-28 — Navbar reads the shared session; no separate BrowserRouter. */
+export default function Navbar() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuId = useId()
 
@@ -117,6 +128,11 @@ export default function Navbar({ user = null }: NavbarProps) {
   }, [])
 
   const closeMenu = () => setMenuOpen(false)
+  const handleLogout = () => {
+    logout()
+    closeMenu()
+    navigate('/', { replace: true })
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full shrink-0 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
@@ -159,6 +175,7 @@ export default function Navbar({ user = null }: NavbarProps) {
             Подати оголошення
           </Link>
           <AccountLink user={user} className="hidden lg:inline-flex" />
+          {user && <LogoutButton onClick={handleLogout} className="hidden lg:inline-flex" />}
           <button
             type="button"
             aria-expanded={menuOpen}
@@ -202,6 +219,7 @@ export default function Navbar({ user = null }: NavbarProps) {
             Подати оголошення
           </Link>
           <AccountLink user={user} onNavigate={closeMenu} className="mt-1 w-full justify-start lg:hidden" />
+          {user && <LogoutButton onClick={handleLogout} className="w-full lg:hidden" />}
         </div>
       </nav>
     </header>
