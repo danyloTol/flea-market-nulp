@@ -6,3 +6,59 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// 1. Статус оголошення
+enum ProductStatus {
+  ACTIVE
+  SOLD
+}
+
+// 2. Користувач (Студент Політехніки)
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  telegram     String?   // наприклад, @username
+  institute    String?   // ІКНІ, ІТРЕ, ІЕСК тощо
+  createdAt    DateTime  @default(now())
+
+  // Зв'язок: один користувач може мати багато оголошень
+  products     Product[]
+
+  @@map("users")
+}
+
+// 3. Категорія товарів
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique // Підручники, Побут, Електроніка
+  slug     String    @unique // textbooks, dorm, electronics
+
+  // Зв'язок: в одній категорії може бути багато товарів
+  products Product[]
+
+  @@map("categories")
+}
+
+// 4. Оголошення (Товар)
+model Product {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  price       Float         @default(0) // 0 якщо безкоштовно
+  images      String[]      // масив посилань на фотографії
+  location    String        // ГУК, 5-й корпус, Гуртожиток 3 тощо
+  status      ProductStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+
+  // Зв'язок з користувачем (автор оголошення)
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Зв'язок з категорією
+  categoryId  String
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@map("products")
+}
