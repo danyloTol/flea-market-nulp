@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes, useSearchParams } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import ProductDetailPage from './pages/ProductDetailPage'
 import ProfilePage, { type StudentListing, type StudentProfile } from './pages/ProfilePage'
 
-// Test fixtures are only exposed with /profile?demo=1 during local development.
-// Real user data and own listings will be passed here after FMN-28 and the API are integrated.
+// Демо-дані для перевірки сторінки через /profile?demo=1
 const demoStudent: StudentProfile = {
   name: 'Студент Демонстраційний',
   email: 'student@example.com',
@@ -31,28 +32,42 @@ function ProfileRoute() {
   )
 }
 
-function HomePlaceholder() {
-  return (
-    <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 py-16 text-center">
-      <h1 className="text-2xl font-bold text-gray-900">FleaMarket NULP</h1>
-      <p className="mt-2 text-gray-500">Каталог у розробці...</p>
-    </div>
-  )
-}
-
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex min-h-screen flex-col bg-gray-50 text-gray-900">
-        <Navbar />
-        <main className="w-full flex-1">
-          <Routes>
-            <Route path="/" element={<HomePlaceholder />} />
-            <Route path="/profile" element={<ProfileRoute />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AuthProvider>
+        <div className="flex min-h-screen flex-col bg-gray-50 text-gray-900">
+          <Navbar />
+          <main className="w-full flex-1">
+            <Routes>
+              {/* Головна сторінка-заглушка */}
+              <Route
+                path="/"
+                element={
+                  <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 py-16 text-center">
+                    <h1 className="text-2xl font-bold text-gray-900">FleaMarket NULP</h1>
+                    <p className="mt-2 text-gray-500">Каталог у розробці...</p>
+                  </div>
+                }
+              />
+              {/* Деталі товару */}
+              <Route path="/product/:id" element={<ProductDetailPage />} />
+              {/* Профіль користувача */}
+              <Route path="/profile" element={<ProfileRoute />} />
+              {/* Всі інші неіснуючі адреси */}
+              <Route
+                path="*"
+                element={
+                  <div className="p-6 text-center">
+                    <h1 className="text-2xl font-bold">404 - Сторінку не знайдено</h1>
+                  </div>
+                }
+              />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
