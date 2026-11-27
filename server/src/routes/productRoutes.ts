@@ -1,12 +1,22 @@
 import { Router } from 'express';
-import { getProducts, getProductById } from '../controllers/productController';
+import {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProductStatus,
+  deleteProduct,
+} from '../controllers/productController';
+import { authenticateToken } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// GET /api/products — список товарів з фільтрами
+// Публічні маршрути
 router.get('/', getProducts);
-
-// GET /api/products/:id — деталі конкретного товару
 router.get('/:id', getProductById);
+
+// Захищені маршрути (тільки для авторизованих студентів)
+router.post('/', authenticateToken, createProduct);
+router.patch('/:id/status', authenticateToken, updateProductStatus);
+router.delete('/:id', authenticateToken, deleteProduct);
 
 export default router;
