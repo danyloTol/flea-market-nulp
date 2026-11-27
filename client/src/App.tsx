@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, useSearchParams } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import HomePage from './pages/HomePage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import ProfilePage, { type StudentListing, type StudentProfile } from './pages/ProfilePage'
 
@@ -40,16 +41,8 @@ function App() {
           <Navbar />
           <main className="w-full flex-1">
             <Routes>
-              {/* Головна сторінка-заглушка */}
-              <Route
-                path="/"
-                element={
-                  <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 py-16 text-center">
-                    <h1 className="text-2xl font-bold text-gray-900">FleaMarket NULP</h1>
-                    <p className="mt-2 text-gray-500">Каталог у розробці...</p>
-                  </div>
-                }
-              />
+              {/* Головна сторінка з каталогом та фільтрами */}
+              <Route path="/" element={<HomePage />} />
               {/* Деталі товару */}
               <Route path="/product/:id" element={<ProductDetailPage />} />
               {/* Профіль користувача */}
