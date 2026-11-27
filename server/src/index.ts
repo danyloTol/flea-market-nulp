@@ -2,20 +2,26 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import productRoutes from './routes/productRoutes';
-import authRoutes from './routes/authRoutes'; // <-- додано
+import authRoutes from './routes/authRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
 // Routes
 app.use('/api/products', productRoutes);
-app.use('/api/auth', authRoutes); // <-- додано
+app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
 
+
+// Healthcheck
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', message: 'FleaMarket NULP Server is running!' });
 });
